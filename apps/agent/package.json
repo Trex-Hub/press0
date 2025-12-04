@@ -1,0 +1,45 @@
+{
+  "name": "agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Press0 AI Agent - WhatsApp agent for media analysis",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "pnpm db migrate deploy && mastra dev",
+    "build": "mastra build",
+    "start": "mastra start",
+    "db": "prisma",
+    "ngrok": "ngrok http 4111",
+    "meta-token": "openssl rand -hex 16"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^2.0.41",
+    "@ai-sdk/google": "^2.0.43",
+    "@browserbasehq/stagehand": "^3.0.1",
+    "@google/genai": "^1.29.0",
+    "@iarna/toml": "^2.2.5",
+    "@langfuse/client": "^4.4.2",
+    "@langfuse/otel": "^4.4.2",
+    "@langfuse/tracing": "^4.4.2",
+    "@mastra/core": "^0.24.0",
+    "@mastra/langfuse": "^0.2.3",
+    "@mastra/libsql": "^0.16.2",
+    "@mastra/loggers": "^0.10.19",
+    "@mastra/memory": "^0.15.11",
+    "@mastra/pg": "^0.17.8",
+    "@opentelemetry/sdk-node": "^0.208.0",
+    "@prisma/client": "6.19.0",
+    "dotenv": "^17.2.3",
+    "pg": "^8.16.3",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^24.10.0",
+    "@types/pg": "^8.15.6",
+    "mastra": "^0.18.0",
+    "prisma": "^6.19.0",
+    "typescript": "^5.9.3"
+  }
+}

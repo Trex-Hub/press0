@@ -1,0 +1,20 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "outDir": "dist",
+    "baseUrl": "./",
+    "paths": {
+      "@/utils/*": ["src/utils/*"],
+      "@/services/*": ["src/services/*"],
+      "@/mastra/*": ["src/mastra/*"],
+      "@/types/*": ["src/types/*"],
+      "@/schemas/*": ["src/schemas/*"],
+      "@/lib/*": ["src/lib/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", ".mastra"]
+}
