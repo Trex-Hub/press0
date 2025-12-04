@@ -1,5 +1,5 @@
 {
-  "name": "hero",
+  "name": "press0",
   "private": true,
   "scripts": {
     "build": "turbo run build",
