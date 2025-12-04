@@ -1,20 +1,27 @@
 // CORE
-import { z } from "zod";
-
+import { z } from 'zod';
 
 export const ThreadManagementInputSchema = z.object({
-  message: z.string().describe("The user's inbound message from WhatsApp (text or video caption)"),
+  message: z
+    .string()
+    .describe(
+      "The user's inbound message from WhatsApp (text or video caption)"
+    ),
   resourceId: z.string().describe("The user's WhatsApp mobile number"),
 });
 
 export const ThreadManagementOutputSchema = z.object({
-  threadId: z.string().describe("The thread ID"),
+  threadId: z.string().describe('The thread ID'),
 });
 
 export const ChatStepInputSchema = z.object({
-  message: z.string().describe("The user's inbound message from WhatsApp (text or video caption)"),
+  message: z
+    .string()
+    .describe(
+      "The user's inbound message from WhatsApp (text or video caption)"
+    ),
   resourceId: z.string().describe("The user's WhatsApp mobile number"),
-  threadId: z.string().describe("The thread ID"),
+  threadId: z.string().describe('The thread ID'),
 });
 
 export const ChatStepOutputSchema = z.object({
@@ -22,14 +29,17 @@ export const ChatStepOutputSchema = z.object({
 });
 
 export const WorkflowInputSchema = z.object({
-  message: z.string().describe("The user's inbound message from WhatsApp (text or video caption)"),
+  message: z
+    .string()
+    .describe(
+      "The user's inbound message from WhatsApp (text or video caption)"
+    ),
   resourceId: z.string().describe("The user's WhatsApp mobile number"),
 });
 
 export const WorkflowOutputSchema = z.object({
   text: z.string().describe("The agent's response text"),
 });
-
 
 // Chat Step Types
 export type ChatStepInput = z.infer<typeof ChatStepInputSchema>;
@@ -41,4 +51,6 @@ export type WorkflowOutput = z.infer<typeof WorkflowOutputSchema>;
 
 // Thread Management Types
 export type ThreadManagementInput = z.infer<typeof ThreadManagementInputSchema>;
-export type ThreadManagementOutput = z.infer<typeof ThreadManagementOutputSchema>;
+export type ThreadManagementOutput = z.infer<
+  typeof ThreadManagementOutputSchema
+>;

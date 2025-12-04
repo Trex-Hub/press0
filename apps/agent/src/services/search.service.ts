@@ -1,5 +1,5 @@
 // CORE
-import { ApiService } from "@/services/index";
+import { ApiService } from '@/services/index';
 // TYPES
 import {
   FocusMode,
@@ -7,11 +7,11 @@ import {
   SEARCH_BODY,
   SEARCH_RESPONSE,
   defaultSearchBody,
-} from "@/types/tools";
+} from '@/types/tools';
 // CONSTANTS
-import { WE_SEARCH_API_URL } from "@/utils/constants";
+import { WE_SEARCH_API_URL } from '@/utils/constants';
 // LOGGER
-import logger from "@/utils/logger";
+import logger from '@/utils/logger';
 
 export class SearchService {
   private apiService: ApiService;
@@ -42,8 +42,8 @@ export class SearchService {
       );
       return data as SEARCH_RESPONSE;
     } catch (error) {
-      logger.error("[ERROR LOG]", { error });
-      throw new Error("Failed to search");
+      logger.error('[ERROR LOG]', { error });
+      throw new Error('Failed to search');
     }
   }
 }

@@ -27,7 +27,10 @@ export class ApiService {
     this.baseUrl = url;
   }
 
-  async fetchData<T>(endpoint: string, options?: ApiOptions): Promise<FetchState<T>> {
+  async fetchData<T>(
+    endpoint: string,
+    options?: ApiOptions
+  ): Promise<FetchState<T>> {
     const state: FetchState<T> = {
       data: null,
       isLoading: true,
@@ -65,10 +68,13 @@ export class ApiService {
           data = null;
         }
 
-        const error = Object.assign(new Error(`HTTP error! status: ${statusCode}`), {
-          statusCode,
-          responseData: data,
-        });
+        const error = Object.assign(
+          new Error(`HTTP error! status: ${statusCode}`),
+          {
+            statusCode,
+            responseData: data,
+          }
+        );
 
         throw error;
       }
@@ -104,8 +110,15 @@ export class ApiService {
         isLoading: false,
         isError: true,
         error: error instanceof Error ? error : new Error('An error occurred'),
-        data: error instanceof Error ? (error as unknown as { responseData: unknown }).responseData as T : null,
-        statusCode: error instanceof Error ? (error as unknown as { statusCode: number }).statusCode : 500,
+        data:
+          error instanceof Error
+            ? ((error as unknown as { responseData: unknown })
+                .responseData as T)
+            : null,
+        statusCode:
+          error instanceof Error
+            ? (error as unknown as { statusCode: number }).statusCode
+            : 500,
       };
     }
   }
@@ -116,7 +129,8 @@ export class ApiService {
   }
 
   async post<T>(endpoint: string, body: unknown, options?: ApiOptions) {
-    const isFormBody = body instanceof FormData || body instanceof URLSearchParams;
+    const isFormBody =
+      body instanceof FormData || body instanceof URLSearchParams;
     const headers = isFormBody
       ? { ...options?.headers }
       : { 'Content-Type': 'application/json', ...options?.headers };

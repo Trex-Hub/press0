@@ -1,9 +1,9 @@
 // CORE
-import { google } from "@ai-sdk/google";
-import { Memory } from "@mastra/memory";
+import { google } from '@ai-sdk/google';
+import { Memory } from '@mastra/memory';
 // UTILS
-import { getSharedStore, getSharedVector } from "@/mastra/memory/db";
-import { GOOGLE_EMBEDDING_MODEL } from "@/utils/constants";
+import { getSharedStore, getSharedVector } from '@/mastra/memory/db';
+import { GOOGLE_EMBEDDING_MODEL } from '@/utils/constants';
 // TYPES
 
 let memory: Memory | null = null;
@@ -14,7 +14,7 @@ const agentMemory = (() => {
     const vector = getSharedVector();
 
     memory = new Memory({
-      storage: storage as any, 
+      storage: storage as any,
       vector: vector as any,
       embedder: google.textEmbedding(GOOGLE_EMBEDDING_MODEL),
       options: {
@@ -22,7 +22,7 @@ const agentMemory = (() => {
         semanticRecall: {
           topK: 4,
           messageRange: 10,
-          scope: "thread",
+          scope: 'thread',
         },
         threads: {
           generateTitle: true,

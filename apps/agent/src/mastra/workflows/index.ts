@@ -1,4 +1,4 @@
-import { createStep, createWorkflow } from "@mastra/core/workflows";
+import { createStep, createWorkflow } from '@mastra/core/workflows';
 // SCHEMAS
 import {
   ChatStepInputSchema,
@@ -7,19 +7,18 @@ import {
   WorkflowOutputSchema,
   ThreadManagementInputSchema,
   ThreadManagementOutputSchema,
-} from "@/schemas/workflow";
+} from '@/schemas/workflow';
 // CONSTANTS
-import { 
-  PRESS_0_WORKFLOW_ID, 
+import {
+  PRESS_0_WORKFLOW_ID,
   THREAD_MANAGEMENT_STEP_ID,
   MESSAGE_STEP_ID,
   PRESS_0_AGENT_ID,
-} from "@/utils/constants";
+} from '@/utils/constants';
 // MEMORY
-import { runConvoThread } from "@/utils/threads";
+import { runConvoThread } from '@/utils/threads';
 // LOGGER
-import logger from "@/utils/logger";
-
+import logger from '@/utils/logger';
 
 // THREAD MANAGEMENT STEP
 const threadManagementStep = createStep({
@@ -29,7 +28,7 @@ const threadManagementStep = createStep({
   execute: async ({ inputData }) => {
     const { resourceId } = inputData ?? {};
     try {
-      const { id: threadId }= await runConvoThread({
+      const { id: threadId } = await runConvoThread({
         resourceId,
       });
       logger.debug(` Using thread:", ${threadId}`);
@@ -40,7 +39,6 @@ const threadManagementStep = createStep({
   },
 });
 
-
 const chatStep = createStep({
   id: MESSAGE_STEP_ID,
   inputSchema: ChatStepInputSchema,
@@ -49,23 +47,27 @@ const chatStep = createStep({
     const { message, threadId, resourceId } = inputData ?? {};
     const agent = mastra?.getAgent(PRESS_0_AGENT_ID);
     if (!agent) {
-       return { text: 'Press0 Agent seems to be offline. Please try again later.' };
-    };
-
+      return {
+        text: 'Press0 Agent seems to be offline. Please try again later.',
+      };
+    }
 
     try {
-    const { text = ''} = await agent.generate(message, { 
-      modelSettings:{
-        temperature: 0.2,
-      },
-      runtimeContext, 
-      threadId,
-      resourceId,
-    }) ?? {};
-    return { text };
+      const { text = '' } =
+        (await agent.generate(message, {
+          modelSettings: {
+            temperature: 0.2,
+          },
+          runtimeContext,
+          threadId,
+          resourceId,
+        })) ?? {};
+      return { text };
     } catch (error) {
-      logger.error("Error in chat workflow:", { error });
-      return { text: 'Press0 Agent seems to be having some technical issues. Please try again later.' };
+      logger.error('Error in chat workflow:', { error });
+      return {
+        text: 'Press0 Agent seems to be having some technical issues. Please try again later.',
+      };
     }
   },
 });
@@ -87,4 +89,3 @@ export const chatWorkflow = createWorkflow({
   })
   .then(chatStep)
   .commit();
-

@@ -1,7 +1,7 @@
-import "./instrumentation"; 
+import './instrumentation';
 // CORE
 import { Mastra } from '@mastra/core/mastra';
-import { registerApiRoute } from "@mastra/core/server";
+import { registerApiRoute } from '@mastra/core/server';
 // LOGGER
 import { PinoLogger } from '@mastra/loggers';
 // AGENTS
@@ -9,12 +9,15 @@ import { press0Agent } from '@/mastra/agents';
 // WORKFLOWS
 import { chatWorkflow } from '@/mastra/workflows';
 // SERVICES
-import { handleWebhookPost, handleWebhookGet } from '@/services/message.handler';
+import {
+  handleWebhookPost,
+  handleWebhookGet,
+} from '@/services/message.handler';
 // CONSTANTS
-import { 
+import {
   LOGGER_LEVEL,
   PRESS_0_AGENT_ID,
-  PRESS_0_WORKFLOW_ID, 
+  PRESS_0_WORKFLOW_ID,
   LANGFUSE_BASE_URL,
   LANGFUSE_PUBLIC_KEY,
   LANGFUSE_SECRET_KEY,
@@ -25,7 +28,7 @@ import { LogLevel } from '@mastra/loggers';
 // UTILS
 import { getSharedStore } from '@/mastra/memory/db';
 // LANGFUSE
-import { LangfuseExporter } from "@mastra/langfuse";
+import { LangfuseExporter } from '@mastra/langfuse';
 
 const storage = getSharedStore();
 
@@ -35,35 +38,37 @@ export const mastra = new Mastra({
   logger: new PinoLogger({
     name: 'Mastra',
     level: LOGGER_LEVEL as LogLevel,
-  }), 
-  server:{
+  }),
+  server: {
     apiRoutes: [
-      registerApiRoute("/webhook",{
-        method: "GET",
+      registerApiRoute('/webhook', {
+        method: 'GET',
         handler: handleWebhookGet,
       }),
-      registerApiRoute("/webhook",{
-        method: "POST",
+      registerApiRoute('/webhook', {
+        method: 'POST',
         handler: handleWebhookPost,
       }),
-    ]
+    ],
   },
   storage,
-  observability:{
-    configs:{
+  observability: {
+    configs: {
       langfuse: {
         serviceName: 'press0-agents',
-        exporters: [ new LangfuseExporter({
-          baseUrl: LANGFUSE_BASE_URL,
-          publicKey: LANGFUSE_PUBLIC_KEY,
-          secretKey: LANGFUSE_SECRET_KEY,
-          realtime: IS_DEV,
-          logLevel: LOGGER_LEVEL as LogLevel,
-        })],
-      }
-    }  
+        exporters: [
+          new LangfuseExporter({
+            baseUrl: LANGFUSE_BASE_URL,
+            publicKey: LANGFUSE_PUBLIC_KEY,
+            secretKey: LANGFUSE_SECRET_KEY,
+            realtime: IS_DEV,
+            logLevel: LOGGER_LEVEL as LogLevel,
+          }),
+        ],
+      },
+    },
   },
   bundler: {
-    externals: ["@google/genai"],
+    externals: ['@google/genai'],
   },
 });

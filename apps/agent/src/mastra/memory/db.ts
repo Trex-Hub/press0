@@ -1,7 +1,7 @@
 // CORE
-import { PostgresStore, PgVector } from "@mastra/pg";
+import { PostgresStore, PgVector } from '@mastra/pg';
 // CONSTANTS
-import { DATABASE_URL } from "@/utils/constants";
+import { DATABASE_URL } from '@/utils/constants';
 // TYPES
 
 let sharedStore: PostgresStore;
@@ -11,7 +11,7 @@ const getSharedStore = (): PostgresStore => {
   if (!sharedStore) {
     sharedStore = new PostgresStore({
       connectionString: DATABASE_URL,
-      schemaName: "public",
+      schemaName: 'public',
     });
   }
   return sharedStore;
@@ -21,7 +21,7 @@ const getSharedVector = (): PgVector => {
   if (!sharedVector) {
     sharedVector = new PgVector({
       connectionString: DATABASE_URL,
-      schemaName: "public",
+      schemaName: 'public',
     });
   }
   return sharedVector;

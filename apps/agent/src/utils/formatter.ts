@@ -1,9 +1,9 @@
 // CORE
-import type { Processor } from "@mastra/core/processors";
-import type { ChunkType } from "@mastra/core/stream";
+import type { Processor } from '@mastra/core/processors';
+import type { ChunkType } from '@mastra/core/stream';
 
 class WhatsAppFormatter implements Processor {
-  readonly name = "whatsapp-formatter";
+  readonly name = 'whatsapp-formatter';
 
   async processOutputStream({
     part,
@@ -12,7 +12,7 @@ class WhatsAppFormatter implements Processor {
     state?: Record<string, any>;
     abort?: (reason?: string) => never;
   }): Promise<ChunkType | null | undefined> {
-    if (part.type !== "text-delta") return part;
+    if (part.type !== 'text-delta') return part;
 
     let txt = part.payload.text;
 
@@ -21,13 +21,13 @@ class WhatsAppFormatter implements Processor {
     // ---
 
     // 1a) Normalize line breaks: Convert all line endings to single "\n"
-    txt = txt.replace(/\r\n|\r/g, "\n");
+    txt = txt.replace(/\r\n|\r/g, '\n');
 
     // 1b) Clean up non-standard whitespace (tabs, non-breaking spaces) to standard spaces
-    txt = txt.replace(/[\u00A0\t]/g, " ");
+    txt = txt.replace(/[\u00A0\t]/g, ' ');
 
     // 1c) Collapse multiple spaces to single space (but preserve intentional spacing)
-    txt = txt.replace(/[ ]{2,}/g, " ");
+    txt = txt.replace(/[ ]{2,}/g, ' ');
 
     // ---
     // PHASE 2: CONVERT MULTI-ASTERISK TO SINGLE ASTERISK
@@ -37,12 +37,12 @@ class WhatsAppFormatter implements Processor {
 
     // 2a) Convert paired multi-asterisk patterns to single asterisk
     // This handles **text**, ***text***, ****text****, etc. → *text*
-    txt = txt.replace(/\*\*+([^*\n]+?)\*\*+/g, "*$1*");
-    
+    txt = txt.replace(/\*\*+([^*\n]+?)\*\*+/g, '*$1*');
+
     // 2b) Clean up any remaining unpaired multi-asterisk sequences
     // Handle edge cases like **text* or *text** or standalone ***
     // Convert any sequence of 2+ consecutive asterisks to single asterisk
-    txt = txt.replace(/\*\*+/g, "*");
+    txt = txt.replace(/\*\*+/g, '*');
 
     // ---
     // PHASE 3: PRESERVE ITALIC, STRIKETHROUGH, AND MONOSPACE
@@ -59,15 +59,18 @@ class WhatsAppFormatter implements Processor {
     // 4a) Convert bullet lists: Ensure each item starts with "- " on its own line
     // Handle various bullet formats: •, -, * (but not * used for bold)
     // Only convert if it's clearly a list item (bullet + space + content)
-    txt = txt.replace(/(?:^|\n)(\s*)(?:[-•]\s+)(.+)/gm, (match, indent, content) => {
-      return `\n${indent}- ${content.trim()}`;
-    });
+    txt = txt.replace(
+      /(?:^|\n)(\s*)(?:[-•]\s+)(.+)/gm,
+      (match, indent, content) => {
+        return `\n${indent}- ${content.trim()}`;
+      }
+    );
 
     // 4b) Convert asterisk bullets (but be careful not to match bold formatting)
     // Only match if it's at start of line with space after asterisk
     txt = txt.replace(/(?:^|\n)(\s*)\*\s+(.+)/gm, (match, indent, content) => {
       // Only convert if it doesn't look like bold formatting (no closing asterisk nearby)
-      if (!content.includes("*")) {
+      if (!content.includes('*')) {
         return `\n${indent}- ${content.trim()}`;
       }
       return match; // Keep original if it might be formatting
@@ -75,9 +78,12 @@ class WhatsAppFormatter implements Processor {
 
     // 4c) Ensure numbered lists are properly formatted: "1. ", "2. ", etc.
     // This preserves existing numbered lists but normalizes spacing
-    txt = txt.replace(/(?:^|\n)(\s*)(\d+)\.\s+(.+)/gm, (match, indent, number, content) => {
-      return `\n${indent}${number}. ${content.trim()}`;
-    });
+    txt = txt.replace(
+      /(?:^|\n)(\s*)(\d+)\.\s+(.+)/gm,
+      (match, indent, number, content) => {
+        return `\n${indent}${number}. ${content.trim()}`;
+      }
+    );
 
     // ---
     // PHASE 5: PRESERVE BLOCK QUOTES
@@ -93,7 +99,7 @@ class WhatsAppFormatter implements Processor {
     // ---
 
     // 6a) Collapse excessive line breaks (max 2 consecutive for clean paragraphs)
-    txt = txt.replace(/\n{3,}/g, "\n\n");
+    txt = txt.replace(/\n{3,}/g, '\n\n');
 
     // 6b) Trim leading/trailing whitespace and line breaks
     txt = txt.trim();

@@ -1,10 +1,10 @@
 // LOGGER
-import { LogLevel, PinoLogger } from "@mastra/loggers";
+import { LogLevel, PinoLogger } from '@mastra/loggers';
 // CONSTANTS
-import { LOGGER_LEVEL } from "@/utils/constants";
+import { LOGGER_LEVEL } from '@/utils/constants';
 
 const logger = new PinoLogger({
-  name: "Press0 Agent",
+  name: 'Press0 Agent',
   level: LOGGER_LEVEL as LogLevel,
 });
 

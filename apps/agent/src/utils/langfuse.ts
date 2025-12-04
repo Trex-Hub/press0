@@ -1,4 +1,4 @@
-import { LangfuseClient } from "@langfuse/client";
+import { LangfuseClient } from '@langfuse/client';
 
 const langfuse = new LangfuseClient();
 

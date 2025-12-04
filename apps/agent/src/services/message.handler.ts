@@ -1,27 +1,27 @@
 // SERVICE
-import { metaService } from "@/services/meta.service";
+import { metaService } from '@/services/meta.service';
 // UTILS
-import { getMessagesValue } from "@/utils/index";
+import { getMessagesValue } from '@/utils/index';
 // CONSTANTS
 import {
   PRESS_0_WORKFLOW_ID,
   STATUS_SUCCESS,
   STATUS_FAILED,
   INSTAGRAM_REEL_URL_REGEX,
-} from "@/utils/constants";
+} from '@/utils/constants';
 // LOGGER
-import logger from "@/utils/logger";
+import logger from '@/utils/logger';
 // MASTRA
-import { RuntimeContext } from "@mastra/core/runtime-context";
+import { RuntimeContext } from '@mastra/core/runtime-context';
 
 export const handleWebhookGet = async (c: any) => {
-  const mode = c.req.query("hub.mode");
-  const token = c.req.query("hub.verify_token");
-  const challenge = c.req.query("hub.challenge");
+  const mode = c.req.query('hub.mode');
+  const token = c.req.query('hub.verify_token');
+  const challenge = c.req.query('hub.challenge');
   if (await metaService.verifyWebhook({ mode, token })) {
     return c.text(challenge, 200);
   }
-  return c.text("Forbidden", 403);
+  return c.text('Forbidden', 403);
 };
 
 export const handleWebhookPost = async (c: any) => {
@@ -29,7 +29,7 @@ export const handleWebhookPost = async (c: any) => {
   const value = getMessagesValue(body);
   // 1️⃣ Status updates → immediate return of a valid 200
   if (Array.isArray(value?.statuses) && value.statuses.length > 0) {
-    return c.text("EVENT_RECEIVED", 200);
+    return c.text('EVENT_RECEIVED', 200);
   }
 
   // 2️⃣ Inbound messages → ack _first_, then process
@@ -38,46 +38,46 @@ export const handleWebhookPost = async (c: any) => {
     const from = msg.from;
 
     // **return** the ack right away
-    const ack = c.text("EVENT_RECEIVED", 200);
+    const ack = c.text('EVENT_RECEIVED', 200);
 
     // Determine message type and content
-    const isVideo = msg.type === "video" && msg.video?.id;
-    const message = isVideo ? msg.video.caption || "" : msg.text?.body ?? "";
+    const isVideo = msg.type === 'video' && msg.video?.id;
+    const message = isVideo ? msg.video.caption || '' : (msg.text?.body ?? '');
     const mediaId = isVideo ? msg.video.id : undefined;
-    const messageType = isVideo ? "video" : "text";
+    const messageType = isVideo ? 'video' : 'text';
 
     let reelUrl: string | undefined;
-    if (messageType === "text") {
+    if (messageType === 'text') {
       const reelUrlMatch = message.match(INSTAGRAM_REEL_URL_REGEX);
       reelUrl = reelUrlMatch ? reelUrlMatch[0] : undefined;
     }
 
     if (reelUrl) {
-      logger.info("🎥 Reel URL received", { reelUrl });
+      logger.info('🎥 Reel URL received', { reelUrl });
     }
 
     if (isVideo) {
-      logger.info("🎥 Video message received", {
+      logger.info('🎥 Video message received', {
         videoId: msg.video.id,
         mimeType: msg.video.mime_type,
         caption: msg.video.caption,
       });
     } else {
-      logger.info("💬 Inbound Message Content:", message);
+      logger.info('💬 Inbound Message Content:', message);
     }
 
     (async () => {
       try {
-        const mastra = c.get("mastra");
+        const mastra = c.get('mastra');
 
         const runtimeContext = new RuntimeContext();
         if (mediaId) {
-          runtimeContext.set("mediaId", mediaId);
+          runtimeContext.set('mediaId', mediaId);
         }
         if (reelUrl) {
-          runtimeContext.set("reelUrl", reelUrl);
+          runtimeContext.set('reelUrl', reelUrl);
         }
-        runtimeContext.set("messageType", messageType);
+        runtimeContext.set('messageType', messageType);
 
         const run = await mastra
           .getWorkflow(PRESS_0_WORKFLOW_ID)
@@ -94,20 +94,20 @@ export const handleWebhookPost = async (c: any) => {
           await metaService.sendMessage({
             phoneNumber: from,
             message:
-              "Hi There, Apologies from Press0, something went wrong. We are working on fixing the issue. Please try again later.",
+              'Hi There, Apologies from Press0, something went wrong. We are working on fixing the issue. Please try again later.',
           });
         } else if (status === STATUS_SUCCESS) {
           await metaService.sendMessage({
             phoneNumber: from,
-            message: result?.text ?? "",
+            message: result?.text ?? '',
           });
         }
       } catch (error) {
-        logger.error("Error while running the workflow", { error });
+        logger.error('Error while running the workflow', { error });
         await metaService.sendMessage({
           phoneNumber: from,
           message:
-            "Hi There, Apologies from Press0, something went wrong. We are working on fixing the issue. Please try again later.",
+            'Hi There, Apologies from Press0, something went wrong. We are working on fixing the issue. Please try again later.',
         });
       }
     })();
@@ -117,5 +117,5 @@ export const handleWebhookPost = async (c: any) => {
   }
 
   // 3️⃣ Fallback
-  return c.text("EVENT_RECEIVED", 200);
+  return c.text('EVENT_RECEIVED', 200);
 };

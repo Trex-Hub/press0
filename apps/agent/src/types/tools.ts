@@ -1,5 +1,5 @@
 // CONSTANTS
-import { FOCUS_MODES, ROLES } from "@/utils/constants";
+import { FOCUS_MODES, ROLES } from '@/utils/constants';
 
 export type Role = (typeof ROLES)[keyof typeof ROLES];
 
@@ -10,7 +10,7 @@ export type Message = {
 
 export type FocusMode = (typeof FOCUS_MODES)[keyof typeof FOCUS_MODES];
 
-export type OptimizationMode = "speed" | "balanced";
+export type OptimizationMode = 'speed' | 'balanced';
 
 export type LLMModel = {
   providerId: string;
@@ -45,18 +45,18 @@ export type SEARCH_RESPONSE = {
   sources: SearchSource[];
 };
 
-export const defaultSearchBody: Omit<SEARCH_BODY, "query" | "focusMode"> = {
+export const defaultSearchBody: Omit<SEARCH_BODY, 'query' | 'focusMode'> = {
   chatModel: {
-    providerId: "1f2e9b24-f0ff-4505-ba82-2781f11f668c",
-    key: "gpt-4o",
+    providerId: '1f2e9b24-f0ff-4505-ba82-2781f11f668c',
+    key: 'gpt-4o',
   },
   embeddingModel: {
-    providerId: "1f2e9b24-f0ff-4505-ba82-2781f11f668c",
-    key: "text-embedding-3-small",
+    providerId: '1f2e9b24-f0ff-4505-ba82-2781f11f668c',
+    key: 'text-embedding-3-small',
   },
-  optimizationMode: "speed",
+  optimizationMode: 'speed',
   history: [],
   stream: false,
   systemInstructions:
-    "You are a search assistant who can access the web to find information about the query.",
+    'You are a search assistant who can access the web to find information about the query.',
 };
