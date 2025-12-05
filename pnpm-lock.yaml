@@ -68,6 +68,9 @@ importers:
       '@prisma/client':
         specifier: 6.19.0
         version: 6.19.0(prisma@6.19.0(typescript@5.9.3))(typescript@5.9.3)
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -180,6 +183,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.2.8
         version: 1.2.8(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       '@tabler/icons-react':
         specifier: ^3.35.0
         version: 3.35.0(react@19.2.0)
@@ -377,7 +383,7 @@ importers:
         specifier: 5.9.2
         version: 5.9.2
 
-  packages/utills:
+  packages/utils:
     dependencies:
       date-fns:
         specifier: ^4.1.0

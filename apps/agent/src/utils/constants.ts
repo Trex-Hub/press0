@@ -10,9 +10,6 @@ export const GOOGLE_MODEL = process.env.GOOGLE_MODEL || 'gemini-2.0-flash';
 export const GOOGLE_EMBEDDING_MODEL =
   process.env.GOOGLE_EMBEDDING_MODEL ?? 'text-embedding-004';
 
-// DATABASE
-export const DATABASE_URL = process.env.DATABASE_URL!;
-
 // META
 export const META_BASE_URL = process.env.META_BASE_URL!;
 export const META_ACCESS_TOKEN = process.env.META_ACCESS_TOKEN!;
@@ -33,9 +30,6 @@ export const STATUS_FAILED = 'failed';
 export const LANGFUSE_BASE_URL = process.env.LANGFUSE_BASE_URL!;
 export const LANGFUSE_PUBLIC_KEY = process.env.LANGFUSE_PUBLIC_KEY!;
 export const LANGFUSE_SECRET_KEY = process.env.LANGFUSE_SECRET_KEY!;
-
-// FLAGS
-export const IS_DEV = process.env.NODE_ENV === 'development';
 
 // PROMPT ID's
 export const DEFAULT_PRESS0_AGENT = 'default-press0-agent';

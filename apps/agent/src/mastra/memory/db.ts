@@ -1,7 +1,7 @@
 // CORE
 import { PostgresStore, PgVector } from '@mastra/pg';
 // CONSTANTS
-import { DATABASE_URL } from '@/utils/constants';
+import { DATABASE_URL } from '@repo/utils/constants';
 // TYPES
 
 let sharedStore: PostgresStore;
