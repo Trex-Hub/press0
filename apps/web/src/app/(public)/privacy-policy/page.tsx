@@ -2,7 +2,7 @@
 'use cache';
 
 import { Separator } from '@/src/components/ui/separator';
-import { LAST_LEGAL_UPDATE_DATE as date } from '@/src/utils/constant';
+import { LAST_LEGAL_UPDATE_DATE as date } from '@repo/utils/constants';
 
 const PrivacyPolicyPage = async () => {
   return (

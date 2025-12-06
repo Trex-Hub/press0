@@ -1,7 +1,7 @@
 // UTILS
 import crypto from 'crypto';
 // CONSTANTS
-import { INTERNAL_SECRET as secret } from '@/src/utils/constant';
+import { INTERNAL_SECRET as secret } from '@repo/utils/constants';
 
 function generateInternalToken(action = 'create-user') {
   const timestamp: number = Date.now();

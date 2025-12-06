@@ -21,8 +21,8 @@ import {
   LANGFUSE_BASE_URL,
   LANGFUSE_PUBLIC_KEY,
   LANGFUSE_SECRET_KEY,
-  IS_DEV,
 } from '@/utils/constants';
+import { IS_DEV } from '@repo/utils/constants';
 // TYPES
 import { LogLevel } from '@mastra/loggers';
 // UTILS

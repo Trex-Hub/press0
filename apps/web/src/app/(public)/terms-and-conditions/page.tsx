@@ -3,7 +3,7 @@
 // COMPONENTS
 import { Separator } from '@/src/components/ui/separator';
 // CONSTANTS
-import { LAST_LEGAL_UPDATE_DATE as date } from '@/src/utils/constant';
+import { LAST_LEGAL_UPDATE_DATE as date } from '@repo/utils/constants';
 import Link from 'next/link';
 
 const TermsAndConditionsPage = async () => {
