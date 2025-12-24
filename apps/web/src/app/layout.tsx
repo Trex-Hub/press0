@@ -5,6 +5,7 @@ import { Antonio } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/src/components/ui/sonner';
 import { ThemeProvider } from '@/src/components/provider/theme-provider';
+import QueryProvider from '@/src/components/provider/query-provider';
 
 const figtree = Figtree({
   variable: '--font-figtree',
@@ -41,7 +42,7 @@ export default function RootLayout({
       suppressHydrationWarning>
       <body className='antialiased'>
         <ThemeProvider attribute='class' defaultTheme='dark'>
-          {children}
+          <QueryProvider>{children}</QueryProvider>
           <Toaster richColors />
         </ThemeProvider>
       </body>
