@@ -24,6 +24,7 @@ import {
 import { toast } from 'sonner';
 // STORES
 import { CommandMenuStoreProps } from '@/src/stores/command-menu-store';
+import { IconRobotFace } from '@tabler/icons-react';
 
 const CommandMenu = ({ open, setOpen }: CommandMenuStoreProps) => {
   const router = useRouter();
@@ -67,6 +68,10 @@ const CommandMenu = ({ open, setOpen }: CommandMenuStoreProps) => {
           <CommandItem value='/dashboard/analytics' onSelect={handleSelect}>
             <ChartAreaIcon />
             <span>Analytics</span>
+          </CommandItem>
+          <CommandItem value='/dashboard/models' onSelect={handleSelect}>
+            <IconRobotFace />
+            <span>Models</span>
           </CommandItem>
         </CommandGroup>
         <CommandSeparator />

@@ -12,7 +12,8 @@
       "@/mastra/*": ["src/mastra/*"],
       "@/types/*": ["src/types/*"],
       "@/schemas/*": ["src/schemas/*"],
-      "@/lib/*": ["src/lib/*"]
+      "@/lib/*": ["src/lib/*"],
+      "@/controllers/*": ["src/controllers/*"]
     }
   },
   "include": ["src/**/*"],

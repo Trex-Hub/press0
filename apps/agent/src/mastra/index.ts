@@ -29,6 +29,8 @@ import { LogLevel } from '@mastra/loggers';
 import { getSharedStore } from '@/mastra/memory/db';
 // LANGFUSE
 import { LangfuseExporter } from '@mastra/langfuse';
+// CONTROLLERS
+import modelsController from '@/controllers/models.controller';
 
 const storage = getSharedStore();
 
@@ -48,6 +50,22 @@ export const mastra = new Mastra({
       registerApiRoute('/webhook', {
         method: 'POST',
         handler: handleWebhookPost,
+      }),
+      registerApiRoute('/models', {
+        method: 'GET',
+        handler: modelsController.getModels,
+      }),
+      registerApiRoute('/models/create', {
+        method: 'POST',
+        handler: modelsController.createModel,
+      }),
+      registerApiRoute('/models/update', {
+        method: 'PUT',
+        handler: modelsController.updateModel,
+      }),
+      registerApiRoute('/models/delete', {
+        method: 'DELETE',
+        handler: modelsController.deleteModel,
       }),
     ],
   },

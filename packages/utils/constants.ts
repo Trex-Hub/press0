@@ -19,3 +19,6 @@ export const WHATSAPP_CHAT_URL: string =
   process.env.NEXT_PUBLIC_WHATSAPP_CHAT_URL ?? 'https://wa.me/15556376380';
 
 export const IS_DEV = process.env.NODE_ENV === 'development';
+
+export const AGENT_BASE_URL: string =
+  process.env.NEXT_PUBLIC_AGENT_BASE_URL ?? 'http://localhost:4111';

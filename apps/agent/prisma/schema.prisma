@@ -168,3 +168,21 @@ model verification {
   createdAt  DateTime? @db.Timestamp(6)
   updatedAt  DateTime? @db.Timestamp(6)
 }
+
+model model_presets {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  displayName   String    @map("display_name")
+  description   String?   @map("description")
+  note          String?   @map("note")
+  icon          String?   @map("icon")
+  provider      String    @map("provider")
+  providerModel String    @map("provider_model")
+  isEnabled     Boolean   @default(true) @map("is_enabled")
+  isDefault     Boolean   @default(false) @map("is_default")
+  sortOrder     Int       @default(100) @map("sort_order")
+  showInUi      Boolean   @default(true) @map("show_in_ui")
+  createdAt     DateTime  @default(now()) @db.Timestamp(6) @map("created_at")
+  updatedAt     DateTime  @default(now()) @db.Timestamp(6) @map("updated_at")
+
+  @@map("model_presets")
+}

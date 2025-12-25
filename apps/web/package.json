@@ -47,6 +47,7 @@
     "@repo/utils": "workspace:*",
     "@tabler/icons-react": "^3.35.0",
     "@tanstack/react-query": "^5.90.12",
+    "@tanstack/react-table": "^8.21.3",
     "@types/pg": "^8.15.6",
     "ai": "^5.0.104",
     "babel-plugin-react-compiler": "^1.0.0",
