@@ -13,6 +13,7 @@ import {
   handleWebhookPost,
   handleWebhookGet,
 } from '@/services/message.handler';
+import { handleWebChat } from '@/services/web.handler';
 // CONSTANTS
 import {
   LOGGER_LEVEL,
@@ -66,6 +67,10 @@ export const mastra = new Mastra({
       registerApiRoute('/models/delete', {
         method: 'DELETE',
         handler: modelsController.deleteModel,
+      }),
+      registerApiRoute('/chat', {
+        method: 'POST',
+        handler: handleWebChat,
       }),
     ],
   },

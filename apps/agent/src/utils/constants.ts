@@ -42,6 +42,9 @@ export const INSTAGRAM_REEL_DOWNLOADER_API_URL =
 export const INSTAGRAM_REEL_URL_REGEX =
   /https?:\/\/(www\.)?instagram\.com\/reel\/[A-Za-z0-9_-]+/;
 
+export const YOUTUBE_URL_REGEX =
+  /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/;
+
 export const WE_SEARCH_API_URL = process.env.WE_SEARCH_API_URL!;
 
 export const ROLES = {

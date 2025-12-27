@@ -32,14 +32,20 @@ export const press0Agent = new Agent({
     const mediaId = runtimeContext?.get('mediaId') as string | undefined;
 
     const reelUrl = runtimeContext?.get('reelUrl') as string | undefined;
+    const youtubeUrl = runtimeContext?.get('youtubeUrl') as string | undefined;
 
-    // Dynamic instructions based on message type
+    // Dynamic instructions based on message type (WhatsApp)
     if (messageType === 'video' && mediaId) {
       return videoAnalysisAgentPrompt.compile();
     }
 
+    // URL-based instructions (Web)
     if (reelUrl) {
       return reelAnalysisAgentPrompt.compile();
+    }
+
+    if (youtubeUrl) {
+      return videoAnalysisAgentPrompt.compile();
     }
 
     // Default instructions for text messages
@@ -58,8 +64,9 @@ export const press0Agent = new Agent({
       | undefined;
 
     const reelUrl = runtimeContext?.get('reelUrl') as string | undefined;
+    const youtubeUrl = runtimeContext?.get('youtubeUrl') as string | undefined;
 
-    // If reelUrl is provided, provide downloadAndAnalyzeReel tool
+    // If reelUrl is provided (Web), provide downloadAndAnalyzeReel tool
     if (reelUrl) {
       return {
         ...commonTools,
@@ -67,7 +74,15 @@ export const press0Agent = new Agent({
       };
     }
 
-    // If message type is video, provide downloadAndAnalyzeVideo tool
+    // If youtubeUrl is provided (Web), provide analyzeVideo tool
+    if (youtubeUrl) {
+      return {
+        ...commonTools,
+        analyzeVideo,
+      };
+    }
+
+    // If message type is video (WhatsApp), provide downloadAndAnalyzeVideo tool
     if (messageType === 'video') {
       return {
         ...commonTools,
