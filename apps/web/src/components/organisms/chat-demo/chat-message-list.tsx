@@ -1,7 +1,11 @@
 'use client';
 
 // HOOKS
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+// ANIMATION
+import { motion } from 'motion/react';
+// ICONS
+import { Copy, Check } from 'lucide-react';
 // TYPES
 import type { UIMessage } from 'ai';
 // COMPONENTS
@@ -9,10 +13,47 @@ import {
   Message,
   MessageContent,
   MessageResponse,
+  MessageActions,
+  MessageAction,
 } from '@/src/components/ai-elements/message';
 import TypingIndicator from '@/src/components/molecules/typing-indicator';
-import ChatEmptyState from '@/src/components/molecules/chat-empty-state';
 import ChatErrorBanner from '@/src/components/molecules/chat-error-banner';
+
+/* ------------------------------------------------------------------ */
+/*  Copy button — self-contained state per message                     */
+/* ------------------------------------------------------------------ */
+
+const CopyMessageAction = ({ text }: { text: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard API unavailable */
+    }
+  }, [text]);
+
+  return (
+    <MessageAction
+      tooltip={copied ? 'Copied!' : 'Copy'}
+      label='Copy message'
+      onClick={handleCopy}
+    >
+      {copied ? (
+        <Check className='size-3.5 text-emerald-400' />
+      ) : (
+        <Copy className='size-3.5' />
+      )}
+    </MessageAction>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+/*  Message list                                                       */
+/* ------------------------------------------------------------------ */
 
 export interface ChatMessageListProps {
   messages: UIMessage[];
@@ -33,41 +74,63 @@ const ChatMessageList = ({
 
   return (
     <div
-      className='flex-1 overflow-y-auto overscroll-contain px-4 py-4'
+      className='flex-1 overflow-y-auto overscroll-contain px-4 py-6'
       role='log'
       aria-label='Chat messages'
-      aria-live='polite'>
-      {messages.length === 0 && !showTyping ? (
-        <ChatEmptyState />
-      ) : (
-        <div className='space-y-4'>
-          {messages.map(message => {
-            const textPart = message.parts.find(part => part.type === 'text');
-            const text = textPart?.type === 'text' ? textPart.text : '';
+      aria-live='polite'
+    >
+      <div className='space-y-5 max-w-3xl mx-auto'>
+        {messages.map((message) => {
+          const textPart = message.parts.find((part) => part.type === 'text');
+          const text = textPart?.type === 'text' ? textPart.text : '';
 
-            return (
-              <div
-                key={message.id}
-                style={{
-                  contentVisibility: 'auto',
-                  containIntrinsicSize: 'auto 80px',
-                }}>
-                <Message from={message.role}>
-                  <MessageContent>
-                    <MessageResponse>{text}</MessageResponse>
-                  </MessageContent>
-                </Message>
-              </div>
-            );
-          })}
+          return (
+            <motion.div
+              key={message.id}
+              style={{
+                contentVisibility: 'auto',
+                containIntrinsicSize: 'auto 80px',
+              }}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+            >
+              <Message from={message.role}>
+                <MessageContent>
+                  <MessageResponse>{text}</MessageResponse>
+                </MessageContent>
+                {text ? (
+                  <MessageActions className='opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-150'>
+                    <CopyMessageAction text={text} />
+                  </MessageActions>
+                ) : null}
+              </Message>
+            </motion.div>
+          );
+        })}
 
-          {showTyping ? <TypingIndicator /> : null}
+        {showTyping ? (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <TypingIndicator />
+          </motion.div>
+        ) : null}
 
-          {error ? <ChatErrorBanner message={error.message} /> : null}
+        {error ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+          >
+            <ChatErrorBanner message={error.message} />
+          </motion.div>
+        ) : null}
 
-          <div ref={messagesEndRef} aria-hidden='true' />
-        </div>
-      )}
+        <div ref={messagesEndRef} aria-hidden='true' />
+      </div>
     </div>
   );
 };
