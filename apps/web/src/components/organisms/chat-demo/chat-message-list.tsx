@@ -36,16 +36,13 @@ const ChatMessageList = ({
       className='flex-1 overflow-y-auto overscroll-contain px-4 py-4'
       role='log'
       aria-label='Chat messages'
-      aria-live='polite'
-    >
+      aria-live='polite'>
       {messages.length === 0 && !showTyping ? (
         <ChatEmptyState />
       ) : (
         <div className='space-y-4'>
-          {messages.map((message) => {
-            const textPart = message.parts.find(
-              (part) => part.type === 'text'
-            );
+          {messages.map(message => {
+            const textPart = message.parts.find(part => part.type === 'text');
             const text = textPart?.type === 'text' ? textPart.text : '';
 
             return (
@@ -54,8 +51,7 @@ const ChatMessageList = ({
                 style={{
                   contentVisibility: 'auto',
                   containIntrinsicSize: 'auto 80px',
-                }}
-              >
+                }}>
                 <Message from={message.role}>
                   <MessageContent>
                     <MessageResponse>{text}</MessageResponse>

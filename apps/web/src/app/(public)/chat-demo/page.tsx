@@ -16,7 +16,6 @@ import ChatInput from '@/src/components/organisms/chat-demo/chat-input';
 // TYPES
 import type { ChatInputProps } from '@/src/components/organisms/chat-demo/chat-input';
 
-
 const ChatDemoPage = () => {
   const transport = useMemo(
     () =>
@@ -25,7 +24,7 @@ const ChatDemoPage = () => {
         prepareSendMessagesRequest({ messages }) {
           const lastMessage = messages[messages.length - 1];
           const messageText =
-            lastMessage?.parts.find((part) => part.type === 'text')?.text ?? '';
+            lastMessage?.parts.find(part => part.type === 'text')?.text ?? '';
 
           return {
             body: {
@@ -44,7 +43,7 @@ const ChatDemoPage = () => {
     status === 'submitted' &&
     (!lastMessage || lastMessage.role !== 'assistant');
 
-  const handleSubmit: ChatInputProps['onSubmit'] = (message) => {
+  const handleSubmit: ChatInputProps['onSubmit'] = message => {
     const trimmed = message.text.trim();
     if (trimmed) {
       sendMessage({ text: trimmed });

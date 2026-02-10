@@ -61,4 +61,5 @@ export const FOCUS_MODES = {
   REDDIT_SEARCH: 'redditSearch',
 };
 
-export const EMBEDDING_MODEL = process.env.EMBEDDING_MODEL || 'openai/text-embedding-3-small';
+export const EMBEDDING_MODEL =
+  process.env.EMBEDDING_MODEL || 'openai/text-embedding-3-small';

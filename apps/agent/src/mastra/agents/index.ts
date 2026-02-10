@@ -1,5 +1,5 @@
 // CORE
-import { openai } from '@ai-sdk/openai'
+import { openai } from '@ai-sdk/openai';
 import { Agent } from '@mastra/core/agent';
 // TOOLS
 import {

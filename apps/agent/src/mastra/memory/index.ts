@@ -1,7 +1,7 @@
 // CORE
 import { openai } from '@ai-sdk/openai';
 import { Memory } from '@mastra/memory';
-// UTILS  
+// UTILS
 import { getSharedStore, getSharedVector } from '@/mastra/memory/db';
 // CONSTANTS
 import { EMBEDDING_MODEL } from '@/utils/constants';
