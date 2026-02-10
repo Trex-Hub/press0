@@ -1,5 +1,5 @@
 // CORE
-import { google } from '@ai-sdk/google';
+import { openai } from '@ai-sdk/openai'
 import { Agent } from '@mastra/core/agent';
 // TOOLS
 import {
@@ -53,7 +53,7 @@ export const press0Agent = new Agent({
   },
   description:
     'You are a friendly and helpful Agent for WhatsApp conversations. You can analyze videos that users send automatically.',
-  model: google('gemini-2.5-flash'),
+  model: openai('gpt-4.1'),
   tools: ({ runtimeContext }) => {
     // Common tools available in all scenarios
     const commonTools = {

@@ -1,10 +1,10 @@
 // CORE
-import { google } from '@ai-sdk/google';
+import { openai } from '@ai-sdk/openai';
 import { Memory } from '@mastra/memory';
-// UTILS
+// UTILS  
 import { getSharedStore, getSharedVector } from '@/mastra/memory/db';
-import { GOOGLE_EMBEDDING_MODEL } from '@/utils/constants';
-// TYPES
+// CONSTANTS
+import { EMBEDDING_MODEL } from '@/utils/constants';
 
 let memory: Memory | null = null;
 
@@ -16,7 +16,7 @@ const agentMemory = (() => {
     memory = new Memory({
       storage: storage as any,
       vector: vector as any,
-      embedder: google.textEmbedding(GOOGLE_EMBEDDING_MODEL),
+      embedder: EMBEDDING_MODEL as any,
       options: {
         lastMessages: 10,
         semanticRecall: {

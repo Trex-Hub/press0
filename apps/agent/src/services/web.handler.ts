@@ -49,6 +49,24 @@ export const handleWebChat = async (c: any) => {
     }
     const sseStream = new ReadableStream({
       async start(controller) {
+        const encoder = new TextEncoder();
+        let hasStarted = false;
+        let hasError = false;
+        // Generate a unique message ID for this response
+        const messageId = `msg-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+
+        const safeEnqueue = (data: string) => {
+          try {
+            if (controller.desiredSize !== null) {
+              controller.enqueue(encoder.encode(data));
+              return true;
+            }
+          } catch (err) {
+            // Controller might be closed, ignore
+          }
+          return false;
+        };
+
         try {
           const agentStream = await agent.stream(message, {
             runtimeContext,
@@ -56,45 +74,70 @@ export const handleWebChat = async (c: any) => {
             resourceId,
           });
 
+          // Send text-start chunk with id
+          if (
+            safeEnqueue(
+              `data: ${JSON.stringify({ type: 'text-start', id: messageId })}\n\n`
+            )
+          ) {
+            hasStarted = true;
+          }
+
+          // Stream text chunks as text-delta
           for await (const chunk of agentStream.textStream) {
-            if (chunk) {
-              const sseData = JSON.stringify({
-                id: `chatcmpl-${Date.now()}`,
-                object: 'chat.completion.chunk',
-                choices: [
-                  {
-                    delta: {
-                      content: chunk,
-                    },
-                  },
-                ],
+            if (chunk && !hasError) {
+              const deltaChunk = JSON.stringify({
+                type: 'text-delta',
+                id: messageId,
+                delta: chunk, // delta is a string, not an object
               });
-              const encoder = new TextEncoder();
-              controller.enqueue(encoder.encode(`data: ${sseData}\n\n`));
+              if (!safeEnqueue(`data: ${deltaChunk}\n\n`)) {
+                // Controller closed, break
+                break;
+              }
             }
           }
 
-          const encoder = new TextEncoder();
-          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
-          controller.close();
+          // Send text-end chunk if we started and didn't error
+          if (hasStarted && !hasError) {
+            safeEnqueue(
+              `data: ${JSON.stringify({ type: 'text-end', id: messageId })}\n\n`
+            );
+          }
+
+          // Close controller only if it's still open
+          try {
+            if (controller.desiredSize !== null) {
+              controller.close();
+            }
+          } catch (err) {
+            // Already closed, ignore
+          }
         } catch (error) {
+          hasError = true;
           logger.error('Error streaming response:', {
             error: error instanceof Error ? error.message : String(error),
             stack: error instanceof Error ? error.stack : undefined,
             errorType: error?.constructor?.name,
             errorString: String(error),
           });
-          const errorData = JSON.stringify({
-            error: {
-              message:
-                error instanceof Error
-                  ? error.message
-                  : 'An error occurred while streaming the response',
-            },
+
+          // Send error chunk if controller is still open
+          const errorChunk = JSON.stringify({
+            type: 'error',
+            id: messageId,
+            errorText:
+              error instanceof Error
+                ? error.message
+                : 'An error occurred while streaming the response',
           });
-          const encoder = new TextEncoder();
-          controller.enqueue(encoder.encode(`data: ${errorData}\n\n`));
-          controller.close();
+          if (safeEnqueue(`data: ${errorChunk}\n\n`)) {
+            try {
+              controller.close();
+            } catch (err) {
+              // Already closed, ignore
+            }
+          }
         }
       },
     });
@@ -118,3 +161,4 @@ export const handleWebChat = async (c: any) => {
     );
   }
 };
+

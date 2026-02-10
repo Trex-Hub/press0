@@ -8,7 +8,7 @@ export const LOGGER_LEVEL = process.env.LOGGER_LEVEL || 'debug';
 export const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY!;
 export const GOOGLE_MODEL = process.env.GOOGLE_MODEL || 'gemini-2.0-flash';
 export const GOOGLE_EMBEDDING_MODEL =
-  process.env.GOOGLE_EMBEDDING_MODEL ?? 'text-embedding-004';
+  process.env.GOOGLE_EMBEDDING_MODEL ?? 'gemini-embedding-001';
 
 // META
 export const META_BASE_URL = process.env.META_BASE_URL!;
@@ -60,3 +60,5 @@ export const FOCUS_MODES = {
   YOUTUBE_SEARCH: 'youtubeSearch',
   REDDIT_SEARCH: 'redditSearch',
 };
+
+export const EMBEDDING_MODEL = process.env.EMBEDDING_MODEL || 'openai/text-embedding-3-small';

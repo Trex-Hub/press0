@@ -101,9 +101,6 @@ class WhatsAppFormatter implements Processor {
     // 6a) Collapse excessive line breaks (max 2 consecutive for clean paragraphs)
     txt = txt.replace(/\n{3,}/g, '\n\n');
 
-    // 6b) Trim leading/trailing whitespace and line breaks
-    txt = txt.trim();
-
     // 6c) Convert line breaks to WhatsApp API format if needed
     // WhatsApp API typically uses "\r" for line breaks
     // Uncomment the line below if your WhatsApp API requires "\r":
