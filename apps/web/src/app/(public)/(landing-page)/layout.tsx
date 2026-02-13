@@ -17,7 +17,7 @@ const LandingPageLayout: React.FC<LandingPageLayoutProps> = ({
         {hero}
         {phone}
         {children}
-        {howItWorks}
+        <section id='how-it-works' className="w-full text-left">{howItWorks}</section>
       </div>
     </div>
   );

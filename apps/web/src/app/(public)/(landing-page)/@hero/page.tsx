@@ -40,7 +40,7 @@ const HeroPage = () => {
       </p>
       <div className='bg-muted-foreground/10 flex rounded-3xl p-1.5'>
         <Button className='rounded-3xl' size={'lg'} asChild>
-          <Link href='/how-it-works'>See How It Works</Link>
+          <Link href='#how-it-works'>See How It Works</Link>
         </Button>
         <Button className='rounded-3xl' variant={'ghost'} size={'lg'} asChild>
           <Link href='/demo'>Try the Demo</Link>
