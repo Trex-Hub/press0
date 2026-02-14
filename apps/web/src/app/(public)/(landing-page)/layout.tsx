@@ -3,6 +3,7 @@ type LandingPageLayoutProps = {
   hero: React.ReactNode;
   phone: React.ReactNode;
   'how-it-works': React.ReactNode;
+  features: React.ReactNode;
 };
 
 const LandingPageLayout: React.FC<LandingPageLayoutProps> = ({
@@ -10,6 +11,7 @@ const LandingPageLayout: React.FC<LandingPageLayoutProps> = ({
   hero,
   phone,
   'how-it-works': howItWorks,
+  features,
 }) => {
   return (
     <div className='py-16 md:py-32 px-2'>
@@ -17,7 +19,10 @@ const LandingPageLayout: React.FC<LandingPageLayoutProps> = ({
         {hero}
         {phone}
         {children}
-        <section id='how-it-works' className="w-full text-left">{howItWorks}</section>
+        <section id='how-it-works' className='w-full text-left'>
+          {howItWorks}
+        </section>
+        {features}
       </div>
     </div>
   );

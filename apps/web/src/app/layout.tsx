@@ -41,7 +41,7 @@ export default function RootLayout({
       className={`${figtree.variable} ${inter.variable} ${antonio.variable}`}
       suppressHydrationWarning>
       <body className='antialiased'>
-        <ThemeProvider attribute='class' defaultTheme='dark'>
+        <ThemeProvider attribute='class' defaultTheme='light'>
           <QueryProvider>{children}</QueryProvider>
           <Toaster richColors />
         </ThemeProvider>
