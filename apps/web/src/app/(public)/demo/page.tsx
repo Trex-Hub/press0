@@ -31,7 +31,7 @@ const ChatDemoPage = () => {
         prepareSendMessagesRequest({ messages }) {
           const lastMessage = messages[messages.length - 1];
           const messageText =
-            lastMessage?.parts.find((part) => part.type === 'text')?.text ?? '';
+            lastMessage?.parts.find(part => part.type === 'text')?.text ?? '';
 
           return {
             body: {
@@ -55,7 +55,7 @@ const ChatDemoPage = () => {
   const hasMessages = messages.length > 0;
 
   const handleSubmit: ChatInputProps['onSubmit'] = useCallback(
-    (message) => {
+    message => {
       const trimmed = message.text.trim();
       if (trimmed) {
         sendMessage({ text: trimmed });

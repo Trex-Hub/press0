@@ -5,7 +5,11 @@ import Link from 'next/link';
 // ICONS
 import { ArrowLeft, Trash2 } from 'lucide-react';
 // COMPONENTS
-import { Avatar, AvatarFallback, AvatarImage } from '@/src/components/ui/avatar';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/src/components/ui/avatar';
 import { Button } from '@/src/components/ui/button';
 
 export interface ChatHeaderProps {
@@ -19,8 +23,7 @@ const ChatHeader = ({ onClear, hasMessages }: ChatHeaderProps) => (
       <Link
         href='/'
         className='flex items-center justify-center shrink-0 size-9 rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none'
-        aria-label='Back to home'
-      >
+        aria-label='Back to home'>
         <ArrowLeft size={20} aria-hidden='true' />
       </Link>
 
@@ -46,8 +49,7 @@ const ChatHeader = ({ onClear, hasMessages }: ChatHeaderProps) => (
         size='icon'
         onClick={onClear}
         className='shrink-0 size-9 text-muted-foreground hover:text-destructive transition-colors'
-        aria-label='Clear chat history'
-      >
+        aria-label='Clear chat history'>
         <Trash2 size={18} aria-hidden='true' />
       </Button>
     ) : null}

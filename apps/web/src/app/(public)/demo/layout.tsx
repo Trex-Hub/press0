@@ -16,8 +16,7 @@ const ChatDemoLayout = ({ children }: { children: React.ReactNode }) => (
           <p className='text-sm text-muted-foreground'>Loading…</p>
         </div>
       </div>
-    }
-  >
+    }>
     {children}
   </Suspense>
 );

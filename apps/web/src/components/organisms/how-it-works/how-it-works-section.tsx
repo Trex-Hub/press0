@@ -50,13 +50,13 @@ function ParallaxCard({
   const y = useTransform(
     scrollYProgress,
     index === 0 ? [0, 0.001] : [entryStart, entryEnd],
-    index === 0 ? ['0%', '0%'] : ['110%', '0%'],
+    index === 0 ? ['0%', '0%'] : ['110%', '0%']
   );
 
   const cardOpacity = useTransform(
     scrollYProgress,
     index === 0 ? [0, 0.001] : [entryStart, entryEnd],
-    index === 0 ? [1, 1] : [0, 1],
+    index === 0 ? [1, 1] : [0, 1]
   );
 
   return (
@@ -73,9 +73,8 @@ function ParallaxCard({
         'bg-card/90 backdrop-blur-sm',
         isActive
           ? 'border-primary/20 shadow-xl shadow-primary/5'
-          : 'border-border/40',
-      )}
-    >
+          : 'border-border/40'
+      )}>
       {/* Decorative step number */}
       <span className='pointer-events-none absolute right-6 top-4 select-none font-antonio text-[5rem] font-bold leading-none text-muted-foreground/6'>
         {String(index + 1).padStart(2, '0')}
@@ -109,11 +108,8 @@ export function HowItWorksSection() {
     offset: ['start start', 'end end'],
   });
 
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    const step = Math.min(
-      Math.floor(latest * STEPS.length) + 1,
-      STEPS.length,
-    );
+  useMotionValueEvent(scrollYProgress, 'change', latest => {
+    const step = Math.min(Math.floor(latest * STEPS.length) + 1, STEPS.length);
     setActiveStep(step);
   });
 
@@ -123,8 +119,7 @@ export function HowItWorksSection() {
       <div
         ref={containerRef}
         className='relative'
-        style={{ height: `${STEPS.length * 100}vh` }}
-      >
+        style={{ height: `${STEPS.length * 100}vh` }}>
         {/* Sticky frame — pins while the user scrolls through steps */}
         <div className='sticky top-0 flex h-screen flex-col items-center justify-center px-2 py-8'>
           {/* Section heading — lives inside sticky so it stays visible */}
@@ -141,8 +136,7 @@ export function HowItWorksSection() {
                     <StepperItem key={idx} step={idx + 1}>
                       <StepperTrigger
                         asChild
-                        className='flex w-full items-center gap-3'
-                      >
+                        className='flex w-full items-center gap-3'>
                         <StepperIndicator className='size-9 text-sm font-semibold'>
                           {idx + 1}
                         </StepperIndicator>

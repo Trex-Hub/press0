@@ -8,8 +8,7 @@ export interface ChatErrorBannerProps {
 const ChatErrorBanner = ({ message }: ChatErrorBannerProps) => (
   <div
     className='flex items-start gap-3 text-sm p-4 bg-destructive/10 border border-destructive/20 rounded-xl'
-    role='alert'
-  >
+    role='alert'>
     <AlertTriangle
       className='size-4 shrink-0 text-destructive mt-0.5'
       aria-hidden='true'

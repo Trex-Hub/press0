@@ -40,8 +40,7 @@ const CopyMessageAction = ({ text }: { text: string }) => {
     <MessageAction
       tooltip={copied ? 'Copied!' : 'Copy'}
       label='Copy message'
-      onClick={handleCopy}
-    >
+      onClick={handleCopy}>
       {copied ? (
         <Check className='size-3.5 text-emerald-400' />
       ) : (
@@ -77,11 +76,10 @@ const ChatMessageList = ({
       className='flex-1 overflow-y-auto overscroll-contain px-4 py-6'
       role='log'
       aria-label='Chat messages'
-      aria-live='polite'
-    >
+      aria-live='polite'>
       <div className='space-y-5 max-w-3xl mx-auto'>
-        {messages.map((message) => {
-          const textPart = message.parts.find((part) => part.type === 'text');
+        {messages.map(message => {
+          const textPart = message.parts.find(part => part.type === 'text');
           const text = textPart?.type === 'text' ? textPart.text : '';
 
           return (
@@ -93,8 +91,7 @@ const ChatMessageList = ({
               }}
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
-            >
+              transition={{ duration: 0.25, ease: 'easeOut' }}>
               <Message from={message.role}>
                 <MessageContent>
                   <MessageResponse>{text}</MessageResponse>
@@ -113,8 +110,7 @@ const ChatMessageList = ({
           <motion.div
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
-          >
+            transition={{ duration: 0.2 }}>
             <TypingIndicator />
           </motion.div>
         ) : null}
@@ -123,8 +119,7 @@ const ChatMessageList = ({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.2 }}
-          >
+            transition={{ duration: 0.2 }}>
             <ChatErrorBanner message={error.message} />
           </motion.div>
         ) : null}

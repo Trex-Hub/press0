@@ -45,8 +45,7 @@ const ChatEmptyState = ({ onPromptSelect }: ChatEmptyStateProps) => (
       className='flex flex-col items-center gap-8 w-full max-w-lg'
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: 'easeOut' }}
-    >
+      transition={{ duration: 0.4, ease: 'easeOut' }}>
       <div className='text-center space-y-2'>
         <h2 className='font-antonio text-2xl sm:text-3xl font-bold uppercase tracking-tight text-balance'>
           What Would You Like to Verify?
@@ -69,12 +68,10 @@ const ChatEmptyState = ({ onPromptSelect }: ChatEmptyStateProps) => (
               duration: 0.3,
               delay: 0.15 + index * 0.08,
               ease: 'easeOut',
-            }}
-          >
+            }}>
             <div
               className={`shrink-0 flex items-center justify-center size-10 rounded-lg ${item.bg} ${item.color}`}
-              aria-hidden='true'
-            >
+              aria-hidden='true'>
               <item.icon className='size-5' />
             </div>
             <div className='flex flex-col gap-0.5 min-w-0'>

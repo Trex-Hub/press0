@@ -1,10 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import {
-  useScroll,
-  useMotionValueEvent,
-} from 'framer-motion';
+import { useScroll, useMotionValueEvent } from 'framer-motion';
 import {
   Stepper,
   StepperItem,
@@ -26,11 +23,8 @@ const HowItWorksPage = () => {
     offset: ['start start', 'end end'],
   });
 
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    const step = Math.min(
-      Math.floor(latest * STEPS.length) + 1,
-      STEPS.length,
-    );
+  useMotionValueEvent(scrollYProgress, 'change', latest => {
+    const step = Math.min(Math.floor(latest * STEPS.length) + 1, STEPS.length);
     setActiveStep(step);
   });
 
@@ -39,8 +33,7 @@ const HowItWorksPage = () => {
       <div
         ref={containerRef}
         className='relative'
-        style={{ height: `${STEPS.length * 100}vh` }}
-      >
+        style={{ height: `${STEPS.length * 100}vh` }}>
         <div className='sticky top-0 flex h-screen flex-col items-center justify-center px-2 py-8'>
           <h1 className='text-center text-foreground font-antonio text-4xl font-extrabold uppercase tracking-tight md:text-8xl'>
             How It Works
@@ -54,8 +47,7 @@ const HowItWorksPage = () => {
                     <StepperItem key={idx} step={idx + 1}>
                       <StepperTrigger
                         asChild
-                        className='flex w-full items-center gap-3'
-                      >
+                        className='flex w-full items-center gap-3'>
                         <StepperIndicator className='size-9 text-sm font-semibold'>
                           {idx + 1}
                         </StepperIndicator>
@@ -91,6 +83,6 @@ const HowItWorksPage = () => {
       </div>
     </section>
   );
-}
+};
 
 export default HowItWorksPage;
