@@ -4,6 +4,8 @@ type LandingPageLayoutProps = {
   phone: React.ReactNode;
   'how-it-works': React.ReactNode;
   features: React.ReactNode;
+  faq: React.ReactNode;
+  footer: React.ReactNode;
 };
 
 const LandingPageLayout: React.FC<LandingPageLayoutProps> = ({
@@ -12,6 +14,8 @@ const LandingPageLayout: React.FC<LandingPageLayoutProps> = ({
   phone,
   'how-it-works': howItWorks,
   features,
+  faq,
+  footer,
 }) => {
   return (
     <div className='py-16 md:py-32 px-2'>
@@ -23,6 +27,8 @@ const LandingPageLayout: React.FC<LandingPageLayoutProps> = ({
           {howItWorks}
         </section>
         {features}
+        {faq}
+        {footer}
       </div>
     </div>
   );
