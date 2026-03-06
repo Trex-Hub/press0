@@ -1,62 +1,55 @@
+# Build from monorepo root: docker build -f apps/agent/Dockerfile .
 # Stage 1: Builder
-# Install dependencies and build the application
 FROM node:20-alpine AS builder
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.26.2 --activate
 
 WORKDIR /app
 
-# Copy package configuration
-COPY package.json pnpm-lock.yaml ./
+# Copy workspace root
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+
+# Copy agent app and its workspace dependencies
+COPY apps/agent ./apps/agent
+COPY packages/utils ./packages/utils
+COPY packages/typescript-config ./packages/typescript-config
 
 # Install all dependencies (including dev) for building
 RUN pnpm install --frozen-lockfile
 
-# Copy Prisma schema and generate client
-COPY prisma ./prisma
-RUN pnpm prisma generate
+# Build workspace packages the agent depends on
+RUN pnpm --filter @repo/utils build
 
-# Copy source code
-COPY . .
+# Generate Prisma client in agent app
+RUN pnpm --filter agent exec prisma generate
 
 # Build the Mastra application
-RUN pnpm build
+RUN pnpm --filter agent build
 
-# Prune to production dependencies to reduce size
-# This removes devDependencies from node_modules
-RUN pnpm prune --prod
+# Prune to production dependencies (CI=true allows prune without TTY in Docker)
+RUN CI=true pnpm prune --prod
 
 
 # Stage 2: Runner
-# Create the final lightweight production image
 FROM node:20-alpine AS runner
 
-# Install pnpm (needed for any runtime scripts or valid node_modules structure)
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.26.2 --activate
 
 WORKDIR /app
 
-# Set environment variables
 ENV NODE_ENV=production
 ENV PORT=8080
 
-# Copy only necessary files from builder
-# 1. Package files
-COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
+# Copy workspace root (needed for pnpm resolution)
+COPY --from=builder /app/package.json /app/pnpm-lock.yaml /app/pnpm-workspace.yaml ./
 
-# 2. Production dependencies (pruned in builder stage)
-#    This includes the generated Prisma Client inside node_modules
+# Copy production node_modules and workspace packages
 COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/packages/utils ./packages/utils
+COPY --from=builder /app/apps/agent ./apps/agent
 
-# 3. Prisma schema (useful for reference or migrations if needed)
-COPY --from=builder /app/prisma ./prisma
+WORKDIR /app/apps/agent
 
-# 4. Built application artifacts
-COPY --from=builder /app/.mastra ./.mastra
-
-# Expose the application port
 EXPOSE 8080
 
-# Start the Mastra server
 CMD ["node", "--import=./.mastra/output/instrumentation.mjs", ".mastra/output/index.mjs"]

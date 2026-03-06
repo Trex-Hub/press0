@@ -1,10 +1,11 @@
+'use cache';
 import Link from 'next/link';
 import { Github, Linkedin } from 'lucide-react';
 
-const GITHUB_URL = 'https://github.com';
-const LINKEDIN_URL = 'https://linkedin.com/in';
+const GITHUB_URL = 'https://github.com/TreX-Hub/press0';
+const LINKEDIN_URL = 'https://linkedin.com/in/devs-den';
 
-const Footer = () => {
+const Footer = async () => {
   const year = new Date().getFullYear();
 
   return (
